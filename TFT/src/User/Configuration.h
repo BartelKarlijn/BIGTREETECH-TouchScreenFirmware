@@ -1,6 +1,6 @@
 #ifndef _CONFIGRATION_H_
 #define _CONFIGRATION_H_
-#define CONFIG_VERSION 20200810
+#define CONFIG_VERSION 20200724
 //===========================================================================
 //============================= General Settings ============================
 //===========================================================================
@@ -8,7 +8,7 @@
 /**
  * Default Mode
  *
- * Mode switching is still possible by by holding down the encorder for two seconds.
+ * Mode switching is still possible by holding down the encorder for two seconds.
  *
  * Options:
  * ST7920_SPI // Marlin Mode
@@ -19,33 +19,33 @@
 /**
  * Default Startup Knob LED Color (TFT35 E3)
  *
- * Options:  1: LED_OFF,     2: LED_WHITE,   3: LED_RED,
- *           4: LED_ORANGE,  5: LED_YELLOW,  6: LED_GREEN,
- *           7: LED_BLUE,    8: LED_INDIGO,  9: LED_VIOLET
+ * Options:  0: LED_OFF,     1: LED_WHITE,   2: LED_RED,
+ *           3: LED_ORANGE,  4: LED_YELLOW,  5: LED_GREEN,
+ *           6: LED_BLUE,    7: LED_INDIGO,  8: LED_VIOLET
  *
  * Default value is: 1 for LED_OFF
 */
-#define STARTUP_KNOB_LED_COLOR 1         // LED_OFF
+#define STARTUP_KNOB_LED_COLOR 0         // LED_OFF
 #define KEEP_KNOB_LED_COLOR_MARLIN_MODE  // Keeps the LED state in Marlin Mode
 
 /**
  * Default LCD Brightness and LCD IDLE Brightness
  *
- * Brightness:  0: LCD_0_PERCENT,    1: LCD_5_PERCENT,   2: LCD_10_PERCENT,
- *              3: LCD_20_PERCENT,   4: LCD_30_PERCENT,  5: LCD_40_PERCENT,
- *              6: LCD_50_PERCENT,   7: LCD_60_PERCENT,  8: LCD_70_PERCENT,
- *              9: LCD_80_PERCENT,  10: LCD_90_PERCENT, 11: LCD_100_PERCENT
+ * Brightness:  0: LCD_5_PERCENT,    1: LCD_10_PERCENT,  2: LCD_20_PERCENT,
+ *              3: LCD_30_PERCENT,   4: LCD_40_PERCENT,  5: LCD_50_PERCENT,
+ *              6: LCD_60_PERCENT,   7: LCD_70_PERCENT,  8: LCD_80_PERCENT,
+ *              9: LCD_90_PERCENT,  10: LCD_100_PERCENT
  *
  * Settings for the idle dim timer. The LCD screen will dim to idle brightness,
  * if the display is not touched for the period of the lcd idle timer.
  *
- * Idle Timer:  1: LCD_DIM_OFF,         2: LCD_DIM_5_SECONDS.   3: LCD_DIM_10_SECONDS,
- *              4: LCD_DIM_30_SECONDS,  4: LCD_DIM_60_SECONDS,  5: LCD_DIM_120_SECONDS,
- *              6: LCD_DIM_300_SECONDS, 7: LCD_DIM_CUSTOM_SECONDS
+ * Idle Timer:  0: LCD_DIM_OFF,          1: LCD_DIM_5_SECONDS.      2: LCD_DIM_10_SECONDS,
+ *              3: LCD_DIM_30_SECONDS,   4: LCD_DIM_60_SECONDS,     5: LCD_DIM_120_SECONDS,
+ *              6: LCD_DIM_300_SECONDS,  7: LCD_DIM_CUSTOM_SECONDS
  *
  */
-#define DEFAULT_LCD_BRIGHTNESS      11  // 11: LCD_100_PERCENT - Brightness value from list
-#define DEFAULT_LCD_IDLE_BRIGHTNESS 3   // 3: LCD_10_PERCENT - Brightness value from list
+#define DEFAULT_LCD_BRIGHTNESS      10  // 10: LCD_100_PERCENT - Brightness value from list
+#define DEFAULT_LCD_IDLE_BRIGHTNESS 2   // 2: LCD_10_PERCENT - Brightness value from list
 #define DEFAULT_LCD_IDLE_TIMER      0   // 0: LCD_DIM_OFF
 #define LCD_DIM_CUSTOM_SECONDS      600 // Custom value in seconds. Will be used if LCD_DIM_CUSTOM_SECONDS is set as idle timer.
 
@@ -58,38 +58,40 @@
  *
  * These colors can be changed in Touch mode, but can also be set here.
  *
- * Options: BLACK, BLUE, BROWN, BRRED, CYAN, GBLUE, GRAY, GREEN, MAGENTA, RED, WHITE, YELLOW
+ * Options: 0: WHITE,      1: BLACK,       2: RED,     3: GREEN,     4: BLUE,   5: CYAN,
+ *          6: MAGENTA,    7: YELLOW,      8: ORANGE,  9: PURPLE,   10: LIME,  11: BROWN,
+ *         12: DARKBLUE,  13: DARKGREEN,  14: GRAY,   15: DARKGRAY
  */
-#define ST7920_BKCOLOR BLACK
-#define ST7920_FNCOLOR YELLOW
+#define MARLIN_BKCOLOR 1
+#define MARLIN_FNCOLOR 0
 
 /**
- * Text displayed at the top of the TFT in Marlin Mode.
+ *  Text displayed at the top of the TFT in Marlin Mode.
  */
-//#define ST7920_BANNER_TEXT "LCD12864 Simulator"
+#define MARLIN_BANNER_TEXT "LCD12864 Simulator"
 
 /**
- * show banner text at the top of the TFT in Marlin Mode.
+ *  show banner text at the top of the TFT in Marlin Mode.
  */
 #define MARLIN_SHOW_BANNER  true //to enabled: true | to disabled: false
 /**
  * Run Marlin Mode in Fullscreen
  *
- * Options:  0: Disabled. RECOMMENDED FOR TFT24
- *           1: Enabled Marlin Fullscreen mode.
+ *  Options:  0: Disabled. RECOMMENDED FOR TFT24
+ *            1: Enabled Marlin Fullscreen mode.
  */
 #define DEFAULT_ST7920_FULLSCREEN_MODE 0 // 0: Disabled. RECOMMENDED FOR TFT24
 
 /**
- * Clean Mode Switching Support
+ * Keep Serial always On (ONLY SUPPORTED ON TFT24 V1.1, TFT35 V3.0, AND TFT28 V3.0)
  *
  * Keep UART (Serial communication) alive in Marlin Mode
  *
  * Allow seamless OctoPrint UART connection to the TFT's UART/serial expansion port no matter which mode the TFT is in.
  *
- * Options:  0: Disabled    1: Enabled
+ *  Options:  0: Disabled    1: Enabled
  */
-//#define CLEAN_MODE_SWITCHING_SUPPORT  // Enable CLEAN MODE SWITCHING SUPPORT
+#define SERIAL_ALWAYS_ON 0  // Default: 0 (Disabled)
 
 //===========================================================================
 //========================== Touch Mode Settings ============================
@@ -97,23 +99,26 @@
 
 /**
  * This setting determines the communication speed of the printer.
+ *
  * 250000 works in most cases, but you might try a lower speed if
  * you commonly experience drop-outs during host printing.
  * You may try up to 1000000 to speed up SD file transfer.
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 115200
+#define BAUDRATE 250000
 
 /**
  * Default Touch Mode Language
+ *
  * Select the language to display on the LCD while in Touch Mode.
+ *
  * Options: ARMENIAN, CHINESE, CZECH, DUTCH, ENGLISH, FRENCH, GERMAN, HUNGARIAN, ITALIAN, JAPANESE, POLISH, PORTUGUESE, RUSSIAN, SLOVAK, SPAIN, CATALAN
  */
 #define DEFAULT_LANGUAGE ENGLISH
 
 /**
- * Show bootscreen when starting up
+ *  Show bootscreen when starting up
  */
 #define SHOW_BTT_BOOTSCREEN
 
@@ -130,54 +135,40 @@
 #define BUZZER_STOP_LEVEL false
 
 /**
- * Toast notification duration (in ms)
- * Set the duration for displaying toast notification on top of the screen
- */
-#define TOAST_DURATION 3000
-
-/**
- * Notification style for ACK messages
- * Set the notification style to use for displaying the ACK messages which start with 'echo:'
- *
- * NOTE: The OFF value is applied to any ACK message type (e.g. even to known echo ACK).
- *      It means that any kind of ACK message is silently discard
- *
- * Options: [OFF: 0, POPUP: 1, TOAST: 2]
- *  OFF:   No notification. The message is ignored.
- *  POPUP: Display a popup window for user confirmation.
- *  TOAST: A Toast notification is displayed for few seconds. No user interaction is needed
- *
- */
-#define ACK_NOTIFICATION_STYLE 1
-
-/**
  * Default Touch Mode Color Options
+ * Options: 0: WHITE,      1: BLACK,       2: RED,     3: GREEN,     4: BLUE,   5: CYAN,
+ *          6: MAGENTA,    7: YELLOW,      8: ORANGE,  9: PURPLE,   10: LIME,  11: BROWN,
+ *         12: DARKBLUE,  13: DARKGREEN,  14: GRAY,   15: DARKGRAY
  */
-#define TITLE_BACKGROUND_COLOR      BLACK  // Title background color // 0xD928
-#define BACKGROUND_COLOR            BLACK  // Background color // 0x0A29
-#define FONT_COLOR                  WHITE  // Font foreground color
-#define REMINDER_FONT_COLOR         RED    // Reminder font color, such as: "No print attached", "Busy processing", etc.
-#define VOLUME_REMINDER_FONT_COLOR  GBLUE  // Volume reminder font color, such as: "Card inserted", "Card removed"
+#define TITLE_BACKGROUND_COLOR     1  // Title background color // 0xD928
+#define BACKGROUND_COLOR           1  // Background color // 0x0A29
+#define FONT_COLOR                 0  // Font foreground color
+#define REMINDER_FONT_COLOR        2  // Reminder font color, such as: "No print attached", "Busy processing", etc.
+#define VOLUME_REMINDER_FONT_COLOR 5  // Volume reminder font color, such as: "Card inserted", "Card removed"
+#define STATUS_XYZ_BG_COLOR        15 // Background color for X Y Z position display in Status Screen.
+#define LISTVIEW_BORDER_COLOR      15 // Border color in List view
+#define LISTVIEW_ICON_COLOR        15 // icon color in List view
 
-#define TOOL_NUM     1    // set in 1~6
+#define HOTEND_NUM   1    // set in 1~6
 #define EXTRUDER_NUM 1    // set in 1~6
 #define FAN_NUM      1    // set in 1~6
 
-#define PREHEAT_LABELS   {"PLA", "PETG", "ABS", "WOOD", "TPU", "NYLON"}
-#define PREHEAT_HOTEND   {200,   240,    230,   170,    220,   250}
-#define PREHEAT_BED      {60,    70,     90,    50,     50,    90}
+//                         PLA      PETG      ABS
+#define PREHEAT_LABELS   {"PLA", "PETG", "ABS", "TPU"}
+#define PREHEAT_HOTEND   {200,   250,    230,   230}
+#define PREHEAT_BED      {60,    70,     100,   50}
 
-#define HEAT_MAX_TEMP    {150,    275,       275,       275,       275,       275,       275}    //max temperature can be set
-#define HEAT_SIGN_ID     {"B:",   "T0:",     "T1:",     "T2:",     "T3:",     "T4:",     "T5:"}
-#define HEAT_DISPLAY_ID  {"Bed",  "T0",      "T1",      "T2",      "T3",      "T4",      "T5"}
-#define HEAT_CMD         {"M140", "M104 T0", "M104 T1", "M104 T2", "M104 T3", "M104 T4", "M104 T5" };
-#define HEAT_WAIT_CMD    {"M190", "M109 T0", "M109 T1", "M109 T2", "M109 T3", "M109 T4", "M109 T5" };
+#define HEAT_MAX_TEMP    {275,       275,       275,       275,       275,       275,       150,    60}   //max temperature can be set
+#define HEAT_SIGN_ID     {"T0:",     "T1:",     "T2:",     "T3:",     "T4:",     "T5:",     "B:",   "C:"}
+#define HEAT_DISPLAY_ID  {"T0",      "T1",      "T2",      "T3",      "T4",      "T5",      "Bed",  "Chamber"}
+#define HEAT_CMD         {"M104 T0", "M104 T1", "M104 T2", "M104 T3", "M104 T4", "M104 T5", "M140", "M141"};
+#define HEAT_WAIT_CMD    {"M109 T0", "M109 T1", "M109 T2", "M109 T3", "M109 T4", "M109 T5", "M190", "M191"};
 
 #define TOOL_CHANGE      {"T0",   "T1",      "T2",      "T3",      "T4",      "T5"}
 #define EXTRUDER_ID      {"E0",   "E1",      "E2",      "E3",      "E4",      "E5"}
 
 #define FAN_MAX_PWM      {255,       255,       255,       255,       255,       255}
-#define FAN_ID           {"F0",    "F1",    "F2",    "F3",    "F4",    "F5"}
+#define FAN_DISPLAY_ID   {"F0",      "F1",      "F2",      "F3",      "F4",      "F5"}
 #define FAN_CMD          {"M106 P0", "M106 P1", "M106 P2", "M106 P3", "M106 P4", "M106 P5" };
 
 #define SPEED_ID         {"Sp.", "Fr."}
@@ -185,22 +176,23 @@
 #define AXIS_DISPLAY_ID  {"X",  "Y",  "Z",   "E",  "E2"}
 
 // Default move speed mm/min
-#define DEFAULT_SPEED_MOVE      3000
-#define SPEED_MOVE_SLOW         1000
-#define SPEED_MOVE_FAST         5000
+#define DEFAULT_SPEED_MOVE   3000
+#define SPEED_MOVE_SLOW      1000
+#define SPEED_MOVE_FAST      5000
 
 // Extrude speed mm/min
-#define EXTRUDE_SLOW_SPEED      60
-#define EXTRUDE_NORMAL_SPEED    600
-#define EXTRUDE_FAST_SPEED      1200
+#define EXTRUDE_SLOW_SPEED   60
+#define EXTRUDE_NORMAL_SPEED 600
+#define EXTRUDE_FAST_SPEED   1200
 
 // Size of machine
+// Ignace 2020 08 25 changed size
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define X_MAX_POS 480 // LOK mod MPCNC Size
-#define Y_MAX_POS 480 // LOK mod MPCNC Size
-#define Z_MAX_POS 80 // LOK mod MPCNC Size
+#define X_MAX_POS 800  
+#define Y_MAX_POS 1300
+#define Z_MAX_POS 200
 
 // Specify a pause position as { X, Y, Z_raise }
 #define NOZZLE_PAUSE_RETRACT_LENGTH 15   // (mm)
@@ -212,11 +204,11 @@
 #define NOZZLE_PAUSE_XY_FEEDRATE    6000 // (mm/min) X and Y axes feedrate
 #define NOZZLE_PAUSE_Z_FEEDRATE     600  // (mm/min) Z axis feedrate
 
-/* M600, M601 ; pause print
- * PrusaSlicer can add M601 on certain height.
+/* M601 ; pause print
+ * PrusaSlicer can add this on certain height. Marlin actually does not support this.
  * Acts here like manual pause
  */
-#define NOZZLE_PAUSE_M600_M601
+//#define NOZZLE_PAUSE_M601
 
 /**
  * Auto Save Load Leveling Data
@@ -227,63 +219,45 @@
 #define AUTO_SAVE_LOAD_LEVELING_VALUE true //to enabled: true | to disabled: false
 
 /**
- * Enable Unified Bed Leveling options
- * Will attempt to auto detect and enable specific UBL options.
- *
+ * Enable Unified Bed Leveling options.
+ *  Will attempt to auto detect and enable specific UBL options.
+ * 
  * WARNING - If you're not sure, leave on auto-detect or disabled.
  *           UBL has extra options other leveling systems might not have.
- *
+ * 
  * Options:  0: Disabled    1: Enabled    2: Auto-detect [default]
- *
+ * 
  */
 #define ENABLE_UBL_VALUE 2
 
 /**
  * Enable friendly probe offset language.
- *
+ * 
  * Decrease/increase and "-" & "+" icons are replaced with down/up and friendly icons
- *
+ * 
  * Options:  0: Disabled    1: Enabled
  */
 #define FRIENDLY_PROBE_OFFSET_LANGUAGE 1
 
 /**
- * Enable quick EEPROM save/load/reset button
- *
- * This will enable a handy button in the (settings > machine) menu
- *
- * Note: if disabled, EEPROM operations can also be accessed in the (settings > machine > parameters) menu
- *
- * Options:  0: Disabled    1: Enabled
- */
-#define QUICK_EEPROM_BUTTON 1
-
-/**
  * Manual Leveling
  * Move to four corner points to Leveling manually (Point 1, Point 2, Point 3, Point 4)
  */
-#define LEVELING_POINT_1_X         (X_MIN_POS + 20)
-#define LEVELING_POINT_1_Y         (Y_MIN_POS + 20)
-#define LEVELING_POINT_2_X         (X_MAX_POS - 20)
-#define LEVELING_POINT_2_Y         (Y_MIN_POS + 20)
-#define LEVELING_POINT_3_X         (X_MAX_POS - 20)
-#define LEVELING_POINT_3_Y         (Y_MAX_POS - 20)
-#define LEVELING_POINT_4_X         (X_MIN_POS + 20)
-#define LEVELING_POINT_4_Y         (Y_MAX_POS - 20)
+#define LEVELING_EDGE_DISTANCE     20    // Inset distance from bed's edge for calculating leveling point location.
 #define LEVELING_POINT_Z           0.2f  // Z-axis position when nozzle stays for leveling
 #define LEVELING_POINT_MOVE_Z      10.0f // Z-axis position when nozzle move to next point
 #define LEVELING_POINT_XY_FEEDRATE 6000  // (mm/min) X and Y axes move feedrate
 #define LEVELING_POINT_Z_FEEDRATE  600   // (mm/min) Z axis move feedrate
 
-#define LEVELING_EDGE_DISTANCE_DISPLAY_ID   "X/Y"
-#define LEVELING_EDGE_DISTANCE_MIN          0
-#define LEVELING_EDGE_DISTANCE_MAX          100
-#define LEVELING_EDGE_DISTANCE_DEFAULT      LEVELING_EDGE_DISTANCE
+#define LEVELING_EDGE_DISTANCE_DISPLAY_ID    "X/Y"
+#define LEVELING_EDGE_DISTANCE_MIN_VALUE     10
+#define LEVELING_EDGE_DISTANCE_MAX_VALUE     100
+#define LEVELING_EDGE_DISTANCE_DEFAULT_VALUE LEVELING_EDGE_DISTANCE
 
 /**
  * Popup
  */
-#define POPUP_NOTIFICATION_DURATION 3000;                  // expressed in ms. E.g. 1500 corresponds to 1.5 seconds
+#define POPUP_NOTIFICATION_DURATION 1500;                  // expressed in ms. E.g. 1500 corresponds to 1.5 seconds
 
 /**
  * Z Fade
@@ -313,14 +287,6 @@
 #define PID_CMD             {"M303 U1 C8 E0", "M303 U1 C8 E1", "M303 U1 C8 E2", "M303 U1 C8 E3", "M303 U1 C8 E4", "M303 U1 C8 E5", "M303 U1 C8 E-1", ""};
 #define PID_PROCESS_TIMEOUT 900000                         // expressed in ms. E.g. 900000 corresponds to 15 minutes
 
-// extruder tuning
-#define TUNE_EXT_HIDE_SAVEDMSG 6000 // Automaticaly hide the message that the new extruder settings are saved
-
-// LCD Encoder
-// In case LCD Encoder's sliding buttons (pin LCD_ENCA_PIN and LCD_ENCB_PIN)
-// don't produce any movement on menu, try to increase the delay (e.g. 64)
-#define LCD_ENCODER_DELAY 8                                // expressed in us. E.g. 8 corresponds to 0,000008 seconds
-
 // Power Supply
 #define PS_ON_ACTIVE_HIGH    true   // Set 'false' for ATX (1), 'true' for X-Box (2)
 
@@ -338,8 +304,7 @@
 
 // Enable Unified Move Menu
 // Move, Home, Extrude, ABL at one Place and bring G-code Menu on Home Menu
-
-// #define UNIFIED_MENU
+#define UNIFIED_MENU true //for unified menu: true | for classic menu: false
 
 // Enable CNC Menu mutually exclusive to UNIFIED_MENU
 #define CNC_MENU
@@ -348,26 +313,28 @@
   //#define CNC_LASER // Enable Laser Interface instead of Fan Interface
 #endif
 
-
 /**
  * SD support
- * The TFT will auto configure M27 AutoReport with M115 command
- * Set the time interval to poll SD Printing status if Marlin reports M27 disabled.
+ * Starting from Marlin Bugfix 2.0.x Distribution Date: 2020-04-27 & above, The TFT will auto detect
+ * On-Board SD Card and auto-configure M27 AutoReport with M115 command
+ * Set the time interval to poll SD Printing status if Marlin reports M27 AutoReport as disabled.
  */
-#define ONBOARD_SD_SUPPORT
-#ifdef ONBOARD_SD_SUPPORT
-  #define M27_REFRESH                3        // Time in sec for M27 command
-  #define M27_WATCH_OTHER_SOURCES    true     // if true the polling on M27 report is always active. Case: SD print started not from TFT35
-#endif
+#define M27_REFRESH                3        // Time in sec for M27 command
+#define M27_WATCH_OTHER_SOURCES    true     // if true the polling on M27 report is always active. Case: SD print started not from TFT35
 
 /**
  * Power Loss Recovery
  *
  * Most suitable for Delta printers since most printers will crash into printed model when homing after powerloss.
  */
-//#define HOME_BEFORE_PLR // Home before power loss recovery
-//#define BTT_MINI_UPS // Backup power / UPS to move Z axis on power loss
-#define POWER_LOSS_ZRAISE 10 // (mm) Raise Z axis on resume (on power loss with UPS)
+// Home before power loss recovery
+#define HOME_BEFORE_PLR false   //to enabled: true | to disabled: false
+
+// Backup power / UPS to move Z axis on power loss
+#define BTT_MINI_UPS    false   //to enabled: true | to disabled: false
+
+// (mm) Raise Z axis on resume (on power loss with UPS)
+#define POWER_LOSS_ZRAISE 10
 
 // Prevent extrusion if the temperature is below set temperature
 #define PREVENT_COLD_EXTRUSION_MINTEMP 170
@@ -379,7 +346,7 @@
  */
 #define AUTO_SHUT_DOWN_MAXTEMP 50
 
-#define SHOW_FAN_PERCENTAGE // enable to show fan speed as a percentage instead of a value
+#define SHOW_FAN_PERCENTAGE true // enable to show fan speed as a percentage instead of a value. to enabled: true | to disabled: false
 
 /**
  * Rapid Serial Communication
@@ -444,6 +411,6 @@
 #define PRINT_END_GCODE "G90\nG1 E-4\nG92 E0\nM18\n" // Switch to absolute positioning, reduce filament pressure by performing small retract, reset extruder position, disable steppers
 
 // Cancel G-code - run this G-code after canceling print
-#define CANCEL_PRINT_GCODE "G28 XY R10\n" // Raise Z 10mm before homing X & Y
+#define PRINT_CANCEL_GCODE "G28 XY R10\n" // Home XY and raise Z 10mm
 
 #endif
