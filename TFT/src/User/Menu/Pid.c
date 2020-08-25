@@ -49,9 +49,9 @@ void pidUpdateStatus(bool succeeded)
   {
 #ifdef ENABLE_PID_STATUS_UPDATE_NOTIFICATION
     if (succeeded)
-      popupNotification(DIALOG_TYPE_INFO, textSelect(LABEL_PID_TITLE), textSelect(LABEL_PROCESS_COMPLETED));
+      addToast((char*)textSelect(LABEL_PROCESS_COMPLETED));
     else
-      popupNotification(DIALOG_TYPE_ERROR, textSelect(LABEL_PID_TITLE), textSelect(LABEL_PROCESS_ABORTED));
+      addToast((char*)textSelect(LABEL_PROCESS_ABORTED));
 #endif
   }
   else                                 // if all the PID processes terminated, provide the final dialog
@@ -64,7 +64,7 @@ void pidUpdateStatus(bool succeeded)
 
       sprintf(tmpBuf, "%s\n %s", textSelect(LABEL_PROCESS_COMPLETED), textSelect(LABEL_EEPROM_SAVE_INFO));
 
-      BUZZER_PLAY(sound_notify);
+      BUZZER_PLAY(sound_success);
 
       showDialog(DIALOG_TYPE_SUCCESS, textSelect(LABEL_PID_TITLE), (u8*) tmpBuf,
         textSelect(LABEL_CONFIRM), textSelect(LABEL_CANCEL), saveEepromSettings, NULL, NULL);
@@ -236,6 +236,10 @@ void menuPid(void)
   pidItems.items[KEY_ICON_4] = itemPidTool[pidHeater.toolIndex];
   pidItems.items[KEY_ICON_5] = itemPidDegree[curDegree];
 
+  #if LCD_ENCODER_SUPPORT
+    encoderPosition = 0;
+  #endif
+
   menuDrawPage(&pidItems);
   pidTemperatureReDraw(false);
 
@@ -247,7 +251,7 @@ void menuPid(void)
       case KEY_ICON_0:
         if (pidHeater.T[pidHeater.toolIndex].target > 0)
           pidHeater.T[pidHeater.toolIndex].target =
-            limitValue(0, pidHeater.T[pidHeater.toolIndex].target - pidDegree[curDegree], infoSettings.max_temp[pidHeater.toolIndex]);
+            NOBEYOND(0, pidHeater.T[pidHeater.toolIndex].target - pidDegree[curDegree], infoSettings.max_temp[pidHeater.toolIndex]);
 
         pidTemperatureReDraw(true);
         break;
@@ -255,7 +259,7 @@ void menuPid(void)
       case KEY_ICON_3:
         if (pidHeater.T[pidHeater.toolIndex].target < infoSettings.max_temp[pidHeater.toolIndex])
           pidHeater.T[pidHeater.toolIndex].target =
-            limitValue(0, pidHeater.T[pidHeater.toolIndex].target + pidDegree[curDegree], infoSettings.max_temp[pidHeater.toolIndex]);
+            NOBEYOND(0, pidHeater.T[pidHeater.toolIndex].target + pidDegree[curDegree], infoSettings.max_temp[pidHeater.toolIndex]);
 
         pidTemperatureReDraw(true);
         break;
@@ -284,7 +288,7 @@ void menuPid(void)
       case KEY_ICON_6:
         if (pidRunning)
         {
-          popupNotification(DIALOG_TYPE_ERROR, textSelect(pidItems.title.index), textSelect(LABEL_PROCESS_RUNNING));
+          addToast(DIALOG_TYPE_ERROR, (char*)textSelect(LABEL_PROCESS_RUNNING));
         }
         else
         {
@@ -292,7 +296,7 @@ void menuPid(void)
 
           if (pidCounter == 0)         // if no temperature was set to a value > 0
           {
-            popupNotification(DIALOG_TYPE_ERROR, textSelect(pidItems.title.index), textSelect(LABEL_INVALID_VALUE));
+            addToast(DIALOG_TYPE_ERROR, (char*)textSelect(LABEL_INVALID_VALUE));
           }
           else
           {
@@ -307,7 +311,25 @@ void menuPid(void)
         break;
 
       default:
-        break;
+      {
+        #if LCD_ENCODER_SUPPORT
+          if(encoderPosition)
+          {
+            if(encoderPosition > 0)
+              if (pidHeater.T[pidHeater.toolIndex].target < infoSettings.max_temp[pidHeater.toolIndex])
+                pidHeater.T[pidHeater.toolIndex].target =
+                  NOBEYOND(0, pidHeater.T[pidHeater.toolIndex].target + pidDegree[curDegree], infoSettings.max_temp[pidHeater.toolIndex]);
+
+            if(encoderPosition < 0)
+              if (pidHeater.T[pidHeater.toolIndex].target > 0)
+                pidHeater.T[pidHeater.toolIndex].target =
+                  NOBEYOND(0, pidHeater.T[pidHeater.toolIndex].target - pidDegree[curDegree], infoSettings.max_temp[pidHeater.toolIndex]);
+
+            pidTemperatureReDraw(true);
+            encoderPosition = 0;
+          }
+        #endif
+      }break;
     }
 
     pidCheckTimeout();
