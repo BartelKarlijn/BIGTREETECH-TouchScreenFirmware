@@ -15,10 +15,7 @@
 #include "language_sk.h"
 #include "language_du.h"
 #include "language_hu.h"
-#include "language_tr.h"
-#include "language_gr.h"
-#include "language_sl.h"
-#include "language_ca.h"
+
 //
 // Add new Keywords in Language.inc file Only
 //
@@ -112,30 +109,6 @@ const char *const hu_pack[LABEL_NUM] = {
   #undef  X_WORD
 };
 
-const char *const tr_pack[LABEL_NUM] = {
-  #define X_WORD(NAME) TR_##NAME ,
-  #include "Language.inc"
-  #undef  X_WORD
-};
-
-const char *const gr_pack[LABEL_NUM] = {
-  #define X_WORD(NAME) GR_##NAME ,
-  #include "Language.inc"
-  #undef  X_WORD
-};
-
-const char *const sl_pack[LABEL_NUM] = {
-  #define X_WORD(NAME) SL_##NAME ,
-  #include "Language.inc"
-  #undef  X_WORD
-};
-
-const char *const ca_pack[LABEL_NUM] = {
-  #define X_WORD(NAME) CA_##NAME ,
-  #include "Language.inc"
-  #undef  X_WORD
-};
-
 u8 * textSelect(u8 sel)
 {
   switch(infoSettings.language)
@@ -155,10 +128,6 @@ u8 * textSelect(u8 sel)
     case SLOVAK:      return (u8 *)sk_pack[sel];
     case DUTCH:       return (u8 *)du_pack[sel];
     case HUNGARIAN:   return (u8 *)hu_pack[sel];
-    case TURKISH:     return (u8 *)tr_pack[sel];
-    case GREEK:       return (u8 *)gr_pack[sel];
-    case SLOVENIAN:   return (u8 *)sl_pack[sel];
-    case CATALAN:     return (u8 *)ca_pack[sel];
 
     default:        return NULL;
   }

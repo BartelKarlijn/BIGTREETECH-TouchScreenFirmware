@@ -7,20 +7,19 @@
 #include "ff.h"
 #include "Configuration.h"
 
-#define BREAK_POINT_FILE "Printing.sys"
+#define BREAK_POINT_FILE		"Printing.sys"
 
 typedef struct
 {
-  float    axis[TOTAL_AXIS];
-  uint32_t feedrate;
-  uint16_t speed,flow;
-  uint16_t target[MAX_HEATER_COUNT];
-  uint16_t fan[MAX_FAN_COUNT];
-  uint8_t  tool;
-  uint32_t offset;
-  bool     relative;
-  bool     relative_e;
-  bool     pause;
+  float axis[TOTAL_AXIS];
+  u32   feedrate;
+  u16   speed,flow;
+  u16	  target[HEATER_NUM],
+        fan[FAN_NUM];
+  TOOL  nozzle;
+  u32	  offset;
+  bool  relative,
+        relative_e;
 } BREAK_POINT;
 
 

@@ -9,14 +9,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "my_misc.h"
-#include "printf/printf.h"
 
 #include "os_timer.h"
 #include "delay.h"
 
 #include "boot.h"
 
-#include "Colors.h"
 #include "lcd.h"
 #include "LCD_Init.h"
 #include "lcd_dma.h"
@@ -42,7 +40,6 @@
 
 #include "LCD_Encoder.h"
 #include "ST7920_Simulator.h"
-#include "HD44780_Simulator.h"
 #include "ui_draw.h"
 #include "touch_process.h"
 #include "interfaceCmd.h"
@@ -55,25 +52,16 @@
 #include "flashStore.h"
 #include "parseACK.h"
 #include "Selectmode.h"
-#include "MarlinMode.h"
-#include "Temperature.h"
-#include "Settings.h"
-#include "Printing.h"
-#include "MachineParameters.h"
-#include "FanControl.h"
-#include "SpeedControl.h"
+#include "Parametersetting.h"
 
 #include "extend.h"
-#include "list_item.h"
-#include "list_widget.h"
-#include "Numpad.h"
 #include "SanityCheck.h"
 
 //menu
 #include "menu.h"
 #include "MainPage.h"
-#include "Heat.h"
 #include "PreheatMenu.h"
+#include "Heat.h"
 #include "Move.h"
 #include "Home.h"
 #include "Print.h"
@@ -82,22 +70,15 @@
 #include "Speed.h"
 #include "BabyStep.h"
 #include "ledcolor.h"
-#include "Parametersetting.h"
 
 #include "Extrude.h"
 #include "Fan.h"
-#include "SettingsMenu.h"
-#include "PrintingMenu.h"
+#include "Settings.h"
 #include "ScreenSettings.h"
 #include "MachineSettings.h"
 #include "FeatureSettings.h"
 #include "SendGcode.h"
 #include "leveling.h"
-#include "levelingUBL.h"
-#include "levelingUBLSave.h"
-#include "levelingUBLLoad.h"
-#include "ZFade.h"
-#include "BLTouch.h"
 #include "ProbeOffset.h"
 #include "PowerFailed.h"
 
@@ -107,11 +88,9 @@
 #include "UnifiedMove.h"
 #include "UnifiedHeat.h"
 #include "StatusScreen.h"
-
-#include "LevelingEdgeDistance.h"
-#include "Tuning.h"
-#include "Pid.h"
-#include "ConnectionSettings.h"
+#include "list_item.h"
+#include "Spindle.h"
+#include "Laser.h"
 
 #define MAX_MENU_DEPTH 10       // max sub menu depth
 typedef void (*FP_MENU)(void);
@@ -133,13 +112,5 @@ typedef struct
 }HOST;
 
 extern HOST infoHost;
-
-typedef struct
-{
-  RCC_ClocksTypeDef rccClocks;
-  u32 PCLK1_Timer_Frequency;
-  u32 PCLK2_Timer_Frequency;
-}CLOCKS;
-extern CLOCKS mcuClocks;
 
 #endif

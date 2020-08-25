@@ -2,10 +2,8 @@
 #include "spi.h"
 #include "GPIO_Init.h"
 #include "stdlib.h"
-#include "Settings.h"
-#include "MarlinMode.h"
 
-#if defined(ST7920_SPI) && !defined(MKS_32_V1_4)
+#ifdef ST7920_SPI
 //TODO:
 //now support SPI2 and PB12 CS only
 //more compatibility changes are needed
@@ -15,14 +13,13 @@
 #elif ST7920_SPI == _SPI2
   #define ST7920_SPI_NUM          SPI2
 #elif ST7920_SPI == _SPI3
-  #define ST7920_SPI_NUM          SPI3
+  #define W25QXX_SPI_NUM          SPI3
 #endif
 
 //#define _SPI_SLAVE_IRQ(n)  n##_IRQHandler
 //#define SPI_SLAVE_IRQ  _SPI_SLAVE_IRQ(W25QXX_SPI_NUM)
 
 SPI_QUEUE SPISlave;
-
 
 void SPI_ReEnable(u8 mode)
 {
@@ -60,13 +57,7 @@ void SPI_Slave(void)
   NVIC_Init(&NVIC_InitStructure);
 
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,ENABLE);
-  SPI_Slave_CS_Config();
-  SPI_ReEnable(0); // spi mode0
-
-  if((GPIOB->IDR & (1<<12)) != 0)
-  {
-    ST7920_SPI_NUM->CR1 |= (1<<6);
-  }
+  SPI_ReEnable(1);
 }
 
 void SPI_SlaveDeInit(void)
@@ -87,74 +78,52 @@ void SPI_SlaveDeInit(void)
 }
 
 
-
 void SPI2_IRQHandler(void)
 {
   SPISlave.data[SPISlave.wIndex] =  ST7920_SPI_NUM->DR;
   SPISlave.wIndex = (SPISlave.wIndex + 1) % SPI_SLAVE_MAX;
 }
 
+/* �ⲿ�ж����� */
 void SPI_Slave_CS_Config(void)
 {
   EXTI_InitTypeDef EXTI_InitStructure;
   NVIC_InitTypeDef   NVIC_InitStructure;
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+  /* ��GPIOA_0���ж������� */
   GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource12);
 
+  /* �����ж���0λ�ⲿ�½����ж� */
   EXTI_InitStructure.EXTI_Line = EXTI_Line12;
   EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
   EXTI_Init(&EXTI_InitStructure);
 
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;			//ʹ�ܰ������ڵ��ⲿ�ж�ͨ��
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//��ռ���ȼ�2��
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;					//�����ȼ�1
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//ʹ���ⲿ�ж�ͨ��
   NVIC_Init(&NVIC_InitStructure);
 }
-#endif
 
-#if (defined(ST7920_SPI) || defined(LCD2004_simulator)) && !defined(MKS_32_V1_4)
+
+/* �ⲿ�ж� */
 void EXTI15_10_IRQHandler(void)
 {
-  switch(infoSettings.marlin_type)
+  if((GPIOB->IDR & (1<<12)) != 0)
   {
-    #ifdef LCD2004_simulator
-    case LCD2004:
-      if((GPIOB->IDR & (1<<15)) != 0){
-        
-        uint8_t temp = ((LCD_D7_PORT->IDR & LCD_D7_PIN) >> 3 ) +     //D7
-                       ((LCD_D6_PORT->IDR & LCD_D6_PIN) >> 5 ) +     //D6
-                       ((LCD_D5_PORT->IDR & LCD_D5_PIN) >> 13) +     //D5
-                       ((LCD_D4_PORT->IDR & LCD_D4_PIN) >> 13) ;     //D4
-
-        if((GPIOB->IDR & (1<<12)) == 0){ //Command received
-          temp |= 0x80;
-        }
-        marlinQueue.data[marlinQueue.index_w] = temp; //Receive HD44780 data
-        marlinQueue.index_w = (marlinQueue.index_w + 1) % QUEUE_MAX_BYTE;
-      }
-      EXTI->PR = 1<<15;
-    break;
-    #endif
-
-    #ifdef ST7920_SPI
-    case LCD12864:
-      if((GPIOB->IDR & (1<<12)) != 0)
-      {
-        SPI_ReEnable(!!(GPIOB->IDR & (1<<13))); // Adaptive spi mode0 / mode3
-        ST7920_SPI_NUM->CR1 |= (1<<6);
-      }
-      else
-      {
-        RCC->APB1RSTR |= 1<<14;	// Reset SPI2
-        RCC->APB1RSTR &= ~(1<<14);
-      }
-      EXTI->PR = 1<<12;   //Clear interrupt status register
-    break;
-    #endif
+    SPI_ReEnable(!!(GPIOB->IDR & (1<<13))); //����Ӧ spi mode0/mode3
+    ST7920_SPI_NUM->CR1 |= (1<<6);
   }
+  else
+  {
+    RCC->APB1RSTR |= 1<<14;	//��λSPI1
+    RCC->APB1RSTR &= ~(1<<14);
+  }
+/* ����ж�״�?�Ĵ��� */
+  EXTI->PR = 1<<12;
 }
+
 #endif

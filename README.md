@@ -13,12 +13,12 @@ Firmware for BigTreeTech's dual-mode touchscreen 3D printer controllers
 ## Table of Contents
 - [Menus and Themes](#menus-and-themes)
 - [Update TFT Firmware](#update-tft-firmware)
-- [Configuration](#configuration)
 - [Customization](#customization)
   - [Bootscreen and Icons](#bootscreen-and-icons)
   - [Firmware](#firmware)
 - [Troubleshooting](#troubleshooting)
 - [Version History](#version-history)
+- [CNC Targeted Modifications](#CNC-Targeted-Modifications)
 
 ## Menus and Themes
 
@@ -46,21 +46,6 @@ Copy both the `BIGTREE_TFT*_V*.*.*.bin` and `TFT*` folder to the root of a blank
 Place SD card with `BIGTREE_TFT*_V*.*.*.bin` &amp; `TFT*` folder into the TFT's SD card reader and power cycle your printer to start the update process.
 
 <p align=center> ⚠️ Failing to update your icons &amp; fonts will result in missing icons and/or unreadable text ⚠️ </p>
-
-## Configuration
-The Firmware can be configured using the **config.ini** file from from one of these folders:
-[`Copy to SD Card root directory to update`](https://github.com/bigtreetech/BIGTREETECH-TouchScreenFirmware/tree/master/Copy%20to%20SD%20Card%20root%20directory%20to%20update) or
-[`Copy to SD Card root directory to update - Unified Menu Material theme`](https://github.com/bigtreetech/BIGTREETECH-TouchScreenFirmware/tree/master/Copy%20to%20SD%20Card%20root%20directory%20to%20update%20-%20Unified%20Menu%20Material%20theme)
-
-### Editing configuration (config.ini) file
-To edit the **config.ini** file follow the instruction here: [Detailed Instructions here](config_instructions.md)
-
-### Updating Firmware Configuration
-To update the Firmware configuration:
-1. Edit the settings in **config.ini**.
-2. Copy the **config.ini** file to the root of the SD card. (The SD card capacity should be less than or equal to 8GB and formatted as FAT32)
-3. Insert the SD card in the TFT's SD card slot and restart the TFT by pressing the reset buttion or disconnecting and connecting the power cable.
-4. The TFT will update and store the configuraiton form **config.ini** file.
 
 ## Customization
 
@@ -105,3 +90,26 @@ To reset the TFT's touch screen calibration, create a blank file named `reset.tx
 ## Version History
 
 See [BIGTREETECH-TouchScreenFirmware/releases](https://github.com/bigtreetech/BIGTREETECH-TouchScreenFirmware/releases) for a complete version history.
+
+## CNC Targeted Modifications
+
+1. Possibility to define CNC_MENU in Configuration.h in order to configure the SW for CNC purposes
+2. Introduced new language and icons tags for CNC specific menu items (no impact on 3D printer tags)
+3. Added some specific bitmaps (from [BlomsD / MPCNC-TFT35-V2.0](https://github.com/BlomsD/MPCNC-TFT35-V2.0))
+4. Introduced a new menu spindle.c in order to add spindle start/stop control
+5. Removed Bed and Extruder Heating menu items from Mainpage.c
+6. Forced configuration in order to remove persistent Bed/Extruder temperature indication on all the pages
+7. Modified the Home menu in order to support G28 XY and G28 Z and Zero axes
+8. Possibility to define CNC_LASER in configuration.h in order to introduce menù for laser management (instead of fan)
+
+See:
+
+1.[TFT35 Home Menu (Home XY)](https://youtu.be/tTO4IgWAW1k)
+
+2.[TFT35 Home Menu (Home Z - Zero 0)](https://youtu.be/vSVPUKN2T6w)
+
+3.[TFT35 Home Spindle (Spindle ON/OFF)](https://youtu.be/DXpbi54GyoA)
+
+
+
+

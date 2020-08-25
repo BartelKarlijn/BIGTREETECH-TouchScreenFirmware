@@ -22,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbh_hcs.h"
 
-#ifdef U_DISK_SUPPORT
+#ifdef U_DISK_SUPPROT
 /** @addtogroup USBH_LIB
   * @{
   */
