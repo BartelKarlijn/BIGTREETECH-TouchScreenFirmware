@@ -1,6 +1,6 @@
 #ifndef _STATUSSCREEN_H_
 #define _STATUSSCREEN_H_
-#include "includes.h"
+#include "GUI.h"
 
 //Colors for drawing the icons
 #define GANTRYLBL_BKCOLOR   0x2187
@@ -19,6 +19,7 @@ extern const GUI_POINT ss_title_point;
 extern const GUI_POINT ss_val_point;
 
 void menuStatus(void);
+//void set_status_icon(void);
 void drawTemperature(void);
 void storegantry(int n, float val);
 void toggleTool(void);

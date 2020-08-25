@@ -2,6 +2,5 @@
 #define _FEATURE_SETTINGS_H_
 
 void menuFeatureSettings(void);
-void resetSettings(void);
 
 #endif

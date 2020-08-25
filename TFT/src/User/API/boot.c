@@ -10,6 +10,7 @@ const GUI_RECT statUpdateRect = {0, (BYTE_HEIGHT*3) + PADDING*3 + ICON_HEIGHT, L
 
 const GUI_RECT labelFailedRect = {0,(BYTE_HEIGHT*4) + PADDING*4 + ICON_HEIGHT, LCD_WIDTH, (BYTE_HEIGHT*5) + PADDING*4 + ICON_HEIGHT};
 
+
 GUI_POINT bmp_size;
 BMPUPDATE_STAT bmp_stat = BMP_SUCCESS;
 
@@ -19,14 +20,6 @@ const char iconBmpName[][32]={
 #include "icon_list.inc"
 #undef  X_ICON
 //add new icons in icon_list.inc only
-};
-
-//This List is Auto-Generated. Please add new icons in icon_list.inc only
-const char smallIconBmpName[][32]={
-#define X_SMALLICON(NAME) STRINGIFY(NAME) ,
-#include "small_icon_list.inc"
-#undef  X_SMALLICON
-//add new icons in small_icon_list.inc only
 };
 
 bool bmpDecode(char *bmp, u32 addr)
@@ -140,10 +133,11 @@ void processIcon(char * path, u32 flashAddr)
 
 void updateIcon(void)
 {
-  static u16 found = 0;
-  static u16 notfound = 0;
+  int found = 0;
+  int notfound = 0;
+  char tempstr[50];
   char nowBmp[64];
-  GUI_Clear(infoSettings.bg_color);
+  GUI_Clear(BACKGROUND_COLOR);
   GUI_DispString(5, PADDING, (u8 *)"Updating Logo");
   GUI_ClearPrect(&iconUpdateRect);
   if (bmpDecode(BMP_ROOT_DIR "/Logo.bmp", LOGO_ADDR))
@@ -157,8 +151,8 @@ void updateIcon(void)
     dispIconFail((u8 *)(BMP_ROOT_DIR "/Logo.bmp"));
   }
 
-  GUI_Clear(infoSettings.bg_color);
-  GUI_DispString(5, PADDING, (u8 *)"Updating Icons");
+  GUI_Clear(BACKGROUND_COLOR);
+  GUI_DispString(5, PADDING, (u8 *)"Updating Logo");
 
   for (int i = 0; i < COUNT(iconBmpName); i++)
   {
@@ -166,7 +160,24 @@ void updateIcon(void)
     GUI_ClearPrect(&labelUpdateRect);
     GUI_DispString(labelUpdateRect.x0, labelUpdateRect.y0, (u8 *)nowBmp);
 
-    processIcon(nowBmp, ICON_ADDR(i));
+    //display bmp update success
+    GUI_POINT last_size = bmp_size;
+    if (bmpDecode(nowBmp, ICON_ADDR(i)))
+    {
+      found++;
+      GUI_ClearRect(iconUpdateRect.x0,iconUpdateRect.y0,iconUpdateRect.x0 + last_size.x,iconUpdateRect.y0 + last_size.y);
+      ICON_CustomReadDisplay(iconUpdateRect.x0, iconUpdateRect.y0, bmp_size.x, bmp_size.y, ICON_ADDR(i));
+    }
+    //display bmp update fail
+    else
+    {
+      notfound++;
+      GUI_ClearRect(iconUpdateRect.x0,iconUpdateRect.y0,iconUpdateRect.x0 + last_size.x,iconUpdateRect.y0 + last_size.y);
+      dispIconFail((u8 *)nowBmp);
+    }
+    // Display icon update progress
+    my_sprintf(tempstr, "Updated: %d | Not Updated: %d", found, notfound);
+    GUI_DispString(statUpdateRect.x0, statUpdateRect.y0, (u8 *)tempstr);
   }
 /*
   for (int i = 0; i < COUNT(smallIconBmpName); i++)
@@ -175,12 +186,8 @@ void updateIcon(void)
     GUI_ClearPrect(&labelUpdateRect);
     GUI_DispString(labelUpdateRect.x0, labelUpdateRect.y0, (u8 *)nowBmp);
 
-    processIcon(nowBmp, SMALL_ICON_ADDR(i));
-  }
-*/
   if (bmpDecode(BMP_ROOT_DIR "/InfoBox.bmp", INFOBOX_ADDR))
   {
-    ICON_CustomReadDisplay(iconUpdateRect.x0, iconUpdateRect.y0, bmp_size.x, bmp_size.y, INFOBOX_ADDR);
     found++;
   }
   else
@@ -188,6 +195,7 @@ void updateIcon(void)
     notfound++;
     dispIconFail((u8 *)(BMP_ROOT_DIR "/InfoBox.bmp"));
   }
+  GUI_DispStringInPrect(&statUpdateRect, (u8 *)tempstr);
 }
 
 void dispIconFail(u8 *lbl)
@@ -258,11 +266,10 @@ void scanResetDir(void) {
     if (f_file_exists(TFT_RESET_FILE ".DONE")) {
       f_unlink(TFT_RESET_FILE ".DONE");
     }
+    f_rename(TFT_RESET_FILE, TFT_RESET_FILE ".DONE");
     infoSettingsReset();
-    LCD_RefreshDirection();
     TSC_Calibration();
     storePara();
-    f_rename(TFT_RESET_FILE, TFT_RESET_FILE ".DONE");
   }
 }
 
@@ -271,7 +278,7 @@ void scanRenameUpdate(void) {
 
   if (f_dir_exists(ROOT_DIR)) { // ROOT_DIR exists
     if (f_dir_exists(ROOT_DIR ".CUR")) { // old ROOT_DIR also exists
-      GUI_Clear(infoSettings.bg_color);
+      GUI_Clear(BACKGROUND_COLOR);
       // It will take some time to delete the old ROOT_DIR, so display "Deleting" on the screen to tell user.
       GUI_DispStringInRect(0, 0, LCD_WIDTH, LCD_HEIGHT, (uint8_t *)"Deleting old ROOT_DIR...");
       f_remove_full_dir(ROOT_DIR ".CUR");
@@ -285,12 +292,6 @@ void scanRenameUpdate(void) {
     }
     f_rename(FIRMWARE_NAME ".bin", FIRMWARE_NAME ".CUR");
   }
-  if (f_file_exists(CONFIG_FILE_PATH)) { // config exists
-    if (f_file_exists(CONFIG_FILE_PATH ".CUR")) { // old config also exists
-      f_unlink(CONFIG_FILE_PATH ".CUR");
-    }
-    f_rename(CONFIG_FILE_PATH, CONFIG_FILE_PATH ".CUR");
-  }
 }
 
 void scanUpdates(void)
@@ -299,12 +300,10 @@ void scanUpdates(void)
     if (f_dir_exists(FONT_ROOT_DIR)) {
       updateFont(FONT_ROOT_DIR"/byte_ascii.fon", BYTE_ASCII_ADDR);
       updateFont(FONT_ROOT_DIR"/word_unicode.fon", WORD_UNICODE);
-      updateFont(FONT_ROOT_DIR"/large_byte_ascii.fon", LARGE_FONT_ADDR);
     }
     if (f_dir_exists(BMP_ROOT_DIR)) {
       updateIcon();
     }
-    getConfigFromFile();
     scanRenameUpdate();
     scanResetDir();
   }

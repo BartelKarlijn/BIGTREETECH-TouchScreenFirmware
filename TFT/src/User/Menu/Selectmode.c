@@ -3,9 +3,8 @@
 #include "GPIO_Init.h"
 #include "Selectmode.h"
 
-bool skipMode = false;
 
-const GUI_RECT rect_of_mode[MODE_COUNT]={
+const GUI_RECT rect_of_mode[SELECTMODE]={
   //2 select icon
   {1*SPACE_SELEX+0*ICON_WIDTH, SPACE_SELEY, 1*SPACE_SELEX+1*ICON_WIDTH, SPACE_SELEY+ICON_HEIGHT},
   {3*SPACE_SELEX+1*ICON_WIDTH, SPACE_SELEY, 3*SPACE_SELEX+2*ICON_WIDTH, SPACE_SELEY+ICON_HEIGHT},
@@ -16,7 +15,7 @@ const uint8_t icon_mode [MODE_COUNT]={
   ICON_BIGTREETECH,
 };
 
-void drawModeIcon(void)
+void show_selectICON(void)
 {
   for(uint8_t i = 0;i < MODE_COUNT; i++)
   {
@@ -41,6 +40,7 @@ void drawModeIcon(void)
 bool LCD_ReadPen(uint16_t intervals)
 {
   static u32 TouchTime = 0;
+
   if(!XPT2046_Read_Pen())
   {
     if(OS_GetTimeMs() - TouchTime > intervals)
@@ -55,12 +55,7 @@ bool LCD_ReadPen(uint16_t intervals)
   return false;
 }
 
-MKEY_VALUES MKeyGetValue(void)
-{
-  return (MKEY_VALUES)KEY_GetValue(COUNT(rect_of_mode), rect_of_mode);
-}
-
-void drawSelectedMode(int8_t nowMode)
+bool LCD_BtnTouch(uint16_t intervals)
 {
   const uint8_t border_off = 4;
   for (uint8_t i = 0; i < MODE_COUNT; i++)
@@ -87,42 +82,26 @@ void loopCheckMode(void)
 //  #endif
   if(LCD_ReadPen(LCD_CHANGE_MODE_INTERVALS) || encoder_ReadBtn(LCD_CHANGE_MODE_INTERVALS))
   {
-    infoMenu.menu[++infoMenu.cur] = menuMode;
+    BtnTime = OS_GetTimeMs();
   }
+  return false;
 }
 
-void menuMode(void)
+#if 1
+ uint8_t LCD_ReadTouch(void)
 {
-  int8_t  nowMode = infoSettings.mode;
+	u16 ex=0,ey=0;
+  static u32 CTime = 0;
+  static u16 sy;
+	static bool MOVE = false;
 
-  if (infoSettings.serial_alwaysOn != 1)
+	if(!XPT2046_Read_Pen() && CTime < OS_GetTimeMs())
   {
-    Serial_ReSourceDeInit();
-  }
-  resetInfoFile();
+		TS_Get_Coordinates(&ex,&ey);
+		if(!MOVE)
+		sy = ey;
 
-  #if !defined(MKS_32_V1_4)
-    //causes hang if we deinit spi1
-    SD_DeInit();
-  #endif
-
-  GUI_Clear(infoSettings.bg_color);
-  drawModeIcon();
-  drawSelectedMode(nowMode);
-  TSC_ReDrawIcon = NULL; // Disable icon redraw callback function
-
-  #if LCD_ENCODER_SUPPORT
-    while(!XPT2046_Read_Pen() || encoder_ReadBtn(LCD_BUTTON_INTERVALS));      //wait for button release
-  #else
-    while(!XPT2046_Read_Pen());      //wait for touch release
-  #endif
-
-  #if LCD_ENCODER_SUPPORT
-    encoderPosition = 0;
-  #endif
-  while(infoMenu.menu[infoMenu.cur] == menuMode)
-  {
-    MKEY_VALUES key_num = MKeyGetValue();
+		MOVE = true;
 
     if(key_num == MKEY_0 || key_num == MKEY_1)
     {
@@ -154,12 +133,76 @@ void menuMode(void)
       loopBackEnd();
     }
   }
+	switch(num)
+	{
+		case 0:
+			break;
+		case 1:
+			GPIO_SetLevel(LCD_BTN_PIN, 0);
+			GPIO_SetLevel(LCD_BTN_PIN, 1);
+			break;
+		case 2:
+			GPIO_SetLevel(LCD_ENCA_PIN, 1);
+			GPIO_SetLevel(LCD_ENCB_PIN, 1);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 0);
+			GPIO_SetLevel(LCD_ENCB_PIN, 1);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 0);
+			GPIO_SetLevel(LCD_ENCB_PIN, 0);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 1);
+			GPIO_SetLevel(LCD_ENCB_PIN, 0);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 1);
+			GPIO_SetLevel(LCD_ENCB_PIN, 1);
+			break;
+		case 3:
+			GPIO_SetLevel(LCD_ENCA_PIN, 1);
+			GPIO_SetLevel(LCD_ENCB_PIN, 1);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 1);
+			GPIO_SetLevel(LCD_ENCB_PIN, 0);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 0);
+			GPIO_SetLevel(LCD_ENCB_PIN, 0);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 0);
+			GPIO_SetLevel(LCD_ENCB_PIN, 1);
+			Delay_us(8);
+			GPIO_SetLevel(LCD_ENCA_PIN, 1);
+			GPIO_SetLevel(LCD_ENCB_PIN, 1);
+			break;
+	}
 
-  if(infoSettings.mode != nowMode)
-  {
-    infoSettings.mode = nowMode;
-    storePara();
-  }
-
-  infoMenuSelect();
+  LCD_EncoderInit();
 }
+
+MKEY_VALUES MKeyGetValue(void)
+{
+  return (MKEY_VALUES)KEY_GetValue(sizeof(rect_of_mode)/sizeof(rect_of_mode[0]), rect_of_mode);
+}
+
+void selectmode(int8_t  nowMode)
+{
+	GUI_SetBkColor(BLACK);
+  GUI_ClearRect(text_startx, rect_of_mode[1].y0-BYTE_HEIGHT+ICON_WIDTH+BYTE_WIDTH, LCD_WIDTH, rect_of_mode[1].y0+ICON_WIDTH+BYTE_WIDTH);
+	GUI_ClearRect(0, rect_of_mode[1].y0-BYTE_HEIGHT+ICON_WIDTH+BYTE_WIDTH, text_startx, rect_of_mode[1].y0+ICON_WIDTH+BYTE_WIDTH);
+
+  if(nowMode==SERIAL_TSC)
+  {
+    GUI_SetColor(ST7920_FNCOLOR);
+    GUI_DispStringInRect(text_startx, rect_of_mode[1].y0-BYTE_HEIGHT+ICON_WIDTH+BYTE_WIDTH, LCD_WIDTH, rect_of_mode[1].y0+ICON_WIDTH+BYTE_WIDTH,(uint8_t *)"Touch Mode");
+    GUI_SetColor(FONT_COLOR);
+    GUI_DispStringInRect(0, rect_of_mode[1].y0-BYTE_HEIGHT+ICON_WIDTH+BYTE_WIDTH, text_startx, rect_of_mode[1].y0+ICON_WIDTH+BYTE_WIDTH,(uint8_t *)"Marlin Mode");
+  }
+  else
+  {
+    GUI_SetColor(ST7920_FNCOLOR);
+    GUI_DispStringInRect(0, rect_of_mode[1].y0-BYTE_HEIGHT+ICON_WIDTH+BYTE_WIDTH, text_startx,rect_of_mode[1].y0+ICON_WIDTH+BYTE_WIDTH,(uint8_t *)"Marlin Mode");
+    GUI_SetColor(FONT_COLOR);
+    GUI_DispStringInRect(text_startx,rect_of_mode[1].y0-BYTE_HEIGHT+ICON_WIDTH+BYTE_WIDTH,LCD_WIDTH,rect_of_mode[1].y0+ICON_WIDTH+BYTE_WIDTH,(uint8_t *)"Touch Mode");
+  }
+}
+
+#endif

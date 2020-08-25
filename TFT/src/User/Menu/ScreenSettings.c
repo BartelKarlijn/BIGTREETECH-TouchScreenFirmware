@@ -1,6 +1,19 @@
 #include "ScreenSettings.h"
 #include "includes.h"
-#include "Colors.h"
+
+MENUITEMS screenSettingsItems = {
+// title
+LABEL_SCREEN_SETTINGS,
+// icon                       label
+ {{ICON_ROTATE_UI,            LABEL_ROTATE_UI},
+  {ICON_TOUCHSCREEN_ADJUST,   LABEL_TOUCHSCREEN_ADJUST},
+  {ICON_LANGUAGE,             LABEL_LANGUAGE},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACK,                 LABEL_BACK},}
+};
 
 #ifdef BUZZER_PIN // Speaker
   #define BUZZER_KEY_INDEX KEY_ICON_3
@@ -229,11 +242,21 @@ void menuSimulatorFontColor(void)
     loopProcess();
   }
 
-  if(memcmp(&now, &infoSettings, sizeof(SETTINGS)))
-  {
-    storePara();
-  }
-}
+  const ITEM itemFontcolor[ITEM_COLOR_NUM] = {
+  // icon                      label
+    {ICON_FONTCOLOR,           LABEL_WHITE},
+    {ICON_FONTCOLOR,           LABEL_BLACK},
+    {ICON_FONTCOLOR,           LABEL_BLUE},
+    {ICON_FONTCOLOR,           LABEL_RED},
+    {ICON_FONTCOLOR,           LABEL_GREEN},
+    {ICON_FONTCOLOR,           LABEL_CYAN},
+    {ICON_FONTCOLOR,           LABEL_YELLOW},
+    {ICON_FONTCOLOR,           LABEL_BROWN},
+    {ICON_FONTCOLOR,           LABEL_GRAY},
+  };
+  const  u32 item_color[ITEM_COLOR_NUM] = {WHITE, BLACK, BLUE, RED, GREEN, CYAN, YELLOW, BROWN, GRAY};
+  static u8  item_bgcolor_i = 0;
+  static u8  item_fontcolor_i = 0;
 #endif
 
 #ifdef BUZZER_PIN
@@ -337,7 +360,7 @@ void menuScreenSettings(void)
 
     for(u8 i = 0; i < LCD_COLOR_COUNT; i++)
     {
-      if(infoSettings.marlin_mode_bg_color == lcd_colors[i])
+      if(infoSettings.bg_color == item_color[i])
       {
         screenSettingsItems.items[LCD12864_BG_INDEX].label = lcd_color_names[i];
       }
@@ -346,7 +369,7 @@ void menuScreenSettings(void)
     // LCD12864 font color
     for(u8 i = 0; i < LCD_COLOR_COUNT; i++)
     {
-      if(infoSettings.marlin_mode_font_color == lcd_colors[i])
+      if(infoSettings.font_color == item_color[i])
       {
         screenSettingsItems.items[LCD12864_FN_INDEX].label = lcd_color_names[i];
       }
@@ -377,7 +400,8 @@ void menuScreenSettings(void)
         break;
 
       case KEY_ICON_2:
-        infoMenu.menu[++infoMenu.cur] = menuLanguage;
+        infoSettings.language = (infoSettings.language + 1) % LANGUAGE_NUM;
+        menuDrawPage(&screenSettingsItems);
         break;
 
       #ifdef BUZZER_PIN
@@ -388,11 +412,17 @@ void menuScreenSettings(void)
 
       #ifdef ST7920_SPI
       case LCD12864_BG_INDEX:
-        infoMenu.menu[++infoMenu.cur] = menuSimulatorBackGroundColor;
+        item_bgcolor_i = (item_bgcolor_i + 1) % ITEM_COLOR_NUM;
+        screenSettingsItems.items[key_num] = itemBGcolor[item_bgcolor_i];
+        menuDrawItem(&screenSettingsItems.items[key_num], key_num);
+        infoSettings.bg_color = item_color[item_bgcolor_i];
         break;
 
       case LCD12864_FN_INDEX:
-        infoMenu.menu[++infoMenu.cur] = menuSimulatorFontColor;
+        item_fontcolor_i = (item_fontcolor_i + 1) % ITEM_COLOR_NUM;
+        screenSettingsItems.items[key_num] = itemFontcolor[item_fontcolor_i];
+        menuDrawItem(&screenSettingsItems.items[key_num], key_num);
+        infoSettings.font_color = item_color[item_fontcolor_i];
         break;
       #endif
 

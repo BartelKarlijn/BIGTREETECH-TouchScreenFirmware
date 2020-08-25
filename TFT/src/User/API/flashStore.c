@@ -40,32 +40,25 @@ u32 byteToWord(u8 *bytes, u8 len)
 
 // Read settings parameter if exist, or reset settings parameter
 // return value: whether the touch screen calibration parameter exists
-void readStoredPara(void)
+bool readStoredPara(void)
 {
+  bool paraExist = true;
   u8 data[PARA_SIZE];
   u32 index = 0;
   u32 sign = 0;
   STM32_FlashRead(data, PARA_SIZE);
 
   sign = byteToWord(data + (index += 4), 4);
-  if(sign == TSC_SIGN)
+  if(sign != TSC_SIGN) paraExist = false;    // If the touch screen calibration parameter does not exist
+  for(int i=0; i<sizeof(TSC_Para)/sizeof(TSC_Para[0]); i++)
   {
-    paraStatus |= PARA_TSC_EXIST;    // If the touch screen calibration parameter already exists
-    for(int i=0; i<sizeof(TSC_Para)/sizeof(TSC_Para[0]); i++)
-    {
-      TSC_Para[i] = byteToWord(data + (index += 4), 4);
-    }
-    infoSettings.rotate_ui            = byteToWord(data + (index += 4), 4); // rotate_ui and TSC_Para[] are bound together
-  }
-  else
-  {
-    infoSettings.rotate_ui            = DISABLED;
+    TSC_Para[i] = byteToWord(data + (index += 4), 4);
   }
 
   sign = byteToWord(data + (index += 4), 4);
   if(sign != PARA_SIGN) // If the settings parameter is illegal, reset settings parameter
   {
-    paraStatus |= PARA_WAS_RESTORED;
+    wasRestored = true;
     infoSettingsReset();
   }
   else
@@ -197,7 +190,7 @@ void storePara(void)
   u8 data[PARA_SIZE];
   u32 index = 0;
 
-  wordToByte(TSC_SIGN,                                data + (index += 4));
+  wordToByte(TSC_SIGN, data + (index += 4));
   for(int i=0; i<sizeof(TSC_Para)/sizeof(TSC_Para[0]); i++)
   {
     wordToByte(TSC_Para[i],                           data + (index += 4));
@@ -325,14 +318,4 @@ void storePara(void)
   }
 
   STM32_FlashWrite(data, PARA_SIZE);
-}
-
-bool readIsTSCExist(void)
-{
-  return ((paraStatus & PARA_TSC_EXIST) != 0);
-}
-
-bool readIsRestored(void)
-{
-  return ((paraStatus & PARA_WAS_RESTORED) != 0);
 }

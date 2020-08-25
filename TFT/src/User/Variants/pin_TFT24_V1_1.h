@@ -22,7 +22,6 @@
 // LCD interface
 #ifndef TFTLCD_DRIVER
   #define TFTLCD_DRIVER ILI9341  // Type of LCD driver, now support[RM68042, ILI9488, ILI9341, ST7789, HX8558].
-  #define TFTLCD_DRIVER_SPEED         0x03
   #define TFTLCD_0_DEGREE_REG_VALUE   0X68
   #define TFTLCD_180_DEGREE_REG_VALUE 0XA8
 #endif
@@ -78,29 +77,6 @@
 // ST7920 Simulator SPI pins
 #define ST7920_SPI    _SPI2
 
-// HD44780 Simulator pins
-#define LCD2004_simulator
-#ifdef LCD2004_simulator
-  #define LCD_EN      PB15
-  #define LCD_RS      PB12
-  #define LCD_D4      PB13
-  #define LCD_D5      PB14
-  #define LCD_D6      PB10
-  #define LCD_D7      PB11
-  #define LCD_EN_PIN  GPIO_Pin_15
-  #define LCD_RS_PIN  GPIO_Pin_12
-  #define LCD_D4_PIN  GPIO_Pin_13
-  #define LCD_D5_PIN  GPIO_Pin_14
-  #define LCD_D6_PIN  GPIO_Pin_10
-  #define LCD_D7_PIN  GPIO_Pin_11
-  #define LCD_EN_PORT GPIOB
-  #define LCD_RS_PORT GPIOB
-  #define LCD_D4_PORT GPIOB
-  #define LCD_D5_PORT GPIOB
-  #define LCD_D6_PORT GPIOB
-  #define LCD_D7_PORT GPIOB
-#endif
-
 // Buzzer support
 #define BUZZER_PIN    PA14
 
@@ -110,7 +86,7 @@
 #define LCD_BTN_PIN   PB2
 
 // U disk support
-#define U_DISK_SUPPORT
+#define U_DISK_SUPPROT
 #define USE_USB_OTG_FS
 
 // Extend function(PS_ON, filament_detect)

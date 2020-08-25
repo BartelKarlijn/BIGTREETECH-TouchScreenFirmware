@@ -4,5 +4,6 @@
 
 void menuPrintFromSource(void);
 void menuPrint(void);
+bool get_Pre_Icon(void);
 
 #endif

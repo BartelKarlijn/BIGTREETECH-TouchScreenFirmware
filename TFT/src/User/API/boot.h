@@ -3,7 +3,6 @@
 
 #include "variants.h"
 #include "stdbool.h"
-#include "config.h"
 
 #define W25QXX_SECTOR_SIZE (0x1000) // 4096-4K
 
@@ -59,18 +58,6 @@ enum
   ICON_BACKGROUND
 };
 
-
-//This List is Auto-Generated. Please add new icons in small_icon_list.inc only
-enum
-{
-  #define X_SMALLICON(NAME) SMALL_ICON_##NAME ,
-  #include "small_icon_list.inc"
-  #undef  X_SMALLICON
-  //add new icons in small_icon_list.inc only
-  // Back ground sign
-    SMALL_ICON_BACKGROUND
-};
-
 typedef enum{
 BMP_SUCCESS,
 BMP_NOTFOUND,
@@ -80,11 +67,11 @@ BMP_INVALIDFILE
 
 typedef union
 {
-  u16 color;
-  struct{
-  u16  b:5;
-  u16  g:6;
-  u16  r:5;
+	u16 color;
+	struct{
+	u16  b:5;
+	u16  g:6;
+	u16  r:5;
  }RGB;
 }GUI_COLOR;
 

@@ -1,4 +1,5 @@
 #include "my_misc.h"
+#include "stdint.h"
 
 uint8_t inRange(int cur, int tag , int range)
 {

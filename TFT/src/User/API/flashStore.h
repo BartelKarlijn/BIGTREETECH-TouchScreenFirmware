@@ -5,11 +5,9 @@
 #include "variants.h"
 #include "Settings.h"
 
-#define PARA_SIZE 512  //bytes
+extern bool wasRestored;
 
-void readStoredPara(void);
+bool readStoredPara(void);
 void storePara(void);
-bool readIsTSCExist(void);
-bool readIsRestored(void);
 
 #endif
