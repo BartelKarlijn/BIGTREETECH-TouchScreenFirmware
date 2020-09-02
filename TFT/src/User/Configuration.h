@@ -189,9 +189,9 @@
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define X_MAX_POS 235
-#define Y_MAX_POS 235
-#define Z_MAX_POS 250
+#define X_MAX_POS 930  // Size machine Ignace
+#define Y_MAX_POS 1300 // Size machine Ignace
+#define Z_MAX_POS 200  // Size machine Ignace
 
 // Specify a pause position as { X, Y, Z_raise }
 #define NOZZLE_PAUSE_RETRACT_LENGTH 15   // (mm)
@@ -215,7 +215,8 @@
  * Enable this will send "M500" after "G29" to store leveling value
  * and send "M420 S1" to enable leveling state after startup
  */
-#define AUTO_SAVE_LOAD_LEVELING_VALUE true //to enabled: true | to disabled: false
+// Ignace 2020 09 02 lowrider no bed leveling
+//#define AUTO_SAVE_LOAD_LEVELING_VALUE true //to enabled: true | to disabled: false
 
 /**
  * Enable Unified Bed Leveling options.
@@ -304,6 +305,9 @@
 // Enable Unified Move Menu
 // Move, Home, Extrude, ABL at one Place and bring G-code Menu on Home Menu
 #define UNIFIED_MENU true //for unified menu: true | for classic menu: false
+// Ignace 2020 09 02 add CNC menu
+#define CNC_MENU
+
 
 /**
  * SD support
