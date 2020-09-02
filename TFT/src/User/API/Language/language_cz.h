@@ -247,5 +247,11 @@
     #define CZ_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define CZ_EXTRUDE_100            "Ext. 100mm"
     #define CZ_CONNECTION_SETTINGS    "Connection"
-
+    #define CZ_ZERO_X                 "Zero X"
+    #define CZ_ZERO_Y                 "Zero Y"
+    #define CZ_ZERO_Z                 "Zero Z"
+    #define CZ_HOME_X                 "Home X"
+    #define CZ_HOME_Y                 "Home Y"
+    #define CZ_HOME_Z                 "Home Z"
+    #define CZ_CUT                    "Cut"
 #endif

@@ -247,5 +247,11 @@
     #define DU_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define DU_EXTRUDE_100            "Ext. 100mm"
     #define DU_CONNECTION_SETTINGS    "Connection"
-
+    #define DU_ZERO_X                 "Zero X"
+    #define DU_ZERO_Y                 "Zero Y"
+    #define DU_ZERO_Z                 "Zero Z"
+    #define DU_HOME_X                 "Home X"
+    #define DU_HOME_Y                 "Home Y"
+    #define DU_HOME_Z                 "Home Z"
+    #define DU_CUT                    "Cut"
 #endif

@@ -247,5 +247,11 @@
     #define DE_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define DE_EXTRUDE_100            "Ext. 100mm"
     #define DE_CONNECTION_SETTINGS    "Connection"
-
+    #define DE_ZERO_X                 "Zero X"
+    #define DE_ZERO_Y                 "Zero Y"
+    #define DE_ZERO_Z                 "Zero Z"
+    #define DE_HOME_X                 "Home X"
+    #define DE_HOME_Y                 "Home Y"
+    #define DE_HOME_Z                 "Home Z"
+    #define DE_CUT                    "Cut"
 #endif

@@ -247,5 +247,11 @@
     #define CA_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define CA_EXTRUDE_100            "Ext. 100mm"
     #define CA_CONNECTION_SETTINGS    "Connection"
-
+    #define CA_ZERO_X                 "Zero X"
+    #define CA_ZERO_Y                 "Zero Y"
+    #define CA_ZERO_Z                 "Zero Z"
+    #define CA_HOME_X                 "Home X"
+    #define CA_HOME_Y                 "Home Y"
+    #define CA_HOME_Z                 "Home Z"
+    #define CA_CUT                    "Cut"
 #endif

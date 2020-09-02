@@ -247,5 +247,11 @@
     #define CN_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define CN_EXTRUDE_100            "Ext. 100mm"
     #define CN_CONNECTION_SETTINGS    "Connection"
-
+    #define CN_ZERO_X                 "Zero X"
+    #define CN_ZERO_Y                 "Zero Y"
+    #define CN_ZERO_Z                 "Zero Z"
+    #define CN_HOME_X                 "Home X"
+    #define CN_HOME_Y                 "Home Y"
+    #define CN_HOME_Z                 "Home Z"
+    #define CN_CUT                    "Cut"
 #endif
