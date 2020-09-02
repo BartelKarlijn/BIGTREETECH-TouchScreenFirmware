@@ -247,5 +247,12 @@
     #define SK_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define SK_EXTRUDE_100            "Ext. 100mm"
     #define SK_CONNECTION_SETTINGS    "Connection"
+    #define SK_ZERO_X                 "Zero X"
+    #define SK_ZERO_Y                 "Zero Y"
+    #define SK_ZERO_Z                 "Zero Z"
+    #define SK_HOME_X                 "Home X"
+    #define SK_HOME_Y                 "Home Y"
+    #define SK_HOME_Z                 "Home Z"
+    #define SK_CUT                    "Cut"
 
 #endif

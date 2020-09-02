@@ -247,5 +247,12 @@
     #define FR_PID_START_INFO_3       "NE touchez PAS l'écran avant la fin (LED verte allumée) !"
     #define FR_EXTRUDE_100            "Ext. 100mm"
     #define FR_CONNECTION_SETTINGS    "Connexion"
+    #define FR_ZERO_X                 "Zero X"
+    #define FR_ZERO_Y                 "Zero Y"
+    #define FR_ZERO_Z                 "Zero Z"
+    #define FR_HOME_X                 "Home X"
+    #define FR_HOME_Y                 "Home Y"
+    #define FR_HOME_Z                 "Home Z"
+    #define FR_CUT                    "Cut"
 
 #endif

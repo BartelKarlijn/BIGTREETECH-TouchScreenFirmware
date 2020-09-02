@@ -247,5 +247,12 @@
     #define PT_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define PT_EXTRUDE_100            "Ext. 100mm"
     #define PT_CONNECTION_SETTINGS    "Connection"
+    #define PT_ZERO_X                 "Zero X"
+    #define PT_ZERO_Y                 "Zero Y"
+    #define PT_ZERO_Z                 "Zero Z"
+    #define PT_HOME_X                 "Home X"
+    #define PT_HOME_Y                 "Home Y"
+    #define PT_HOME_Z                 "Home Z"
+    #define PT_CUT                    "Cut"
 
 #endif

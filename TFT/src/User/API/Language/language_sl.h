@@ -247,5 +247,12 @@
     #define SL_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define SL_EXTRUDE_100            "Ext. 100mm"
     #define SL_CONNECTION_SETTINGS    "Connection"
+    #define SL_ZERO_X                 "Zero X"
+    #define SL_ZERO_Y                 "Zero Y"
+    #define SL_ZERO_Z                 "Zero Z"
+    #define SL_HOME_X                 "Home X"
+    #define SL_HOME_Y                 "Home Y"
+    #define SL_HOME_Z                 "Home Z"
+    #define SL_CUT                    "Cut"
 
 #endif

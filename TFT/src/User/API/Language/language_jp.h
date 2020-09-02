@@ -247,5 +247,12 @@
     #define JP_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define JP_EXTRUDE_100            "Ext. 100mm"
     #define JP_CONNECTION_SETTINGS    "Connection"
+    #define JP_ZERO_X                 "Zero X"
+    #define JP_ZERO_Y                 "Zero Y"
+    #define JP_ZERO_Z                 "Zero Z"
+    #define JP_HOME_X                 "Home X"
+    #define JP_HOME_Y                 "Home Y"
+    #define JP_HOME_Z                 "Home Z"
+    #define JP_CUT                    "Cut"
 
 #endif

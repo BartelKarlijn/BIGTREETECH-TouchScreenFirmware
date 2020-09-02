@@ -247,5 +247,12 @@
     #define TR_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define TR_EXTRUDE_100            "Ext. 100mm"
     #define TR_CONNECTION_SETTINGS    "Connection"
+    #define TR_ZERO_X                 "Zero X"
+    #define TR_ZERO_Y                 "Zero Y"
+    #define TR_ZERO_Z                 "Zero Z"
+    #define TR_HOME_X                 "Home X"
+    #define TR_HOME_Y                 "Home Y"
+    #define TR_HOME_Z                 "Home Z"
+    #define TR_CUT                    "Cut"
 
 #endif

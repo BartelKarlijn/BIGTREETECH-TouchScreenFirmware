@@ -247,5 +247,12 @@
     #define IT_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define IT_EXTRUDE_100            "Ext. 100mm"
     #define IT_CONNECTION_SETTINGS    "Connection"
+    #define IT_ZERO_X                 "Zero X"
+    #define IT_ZERO_Y                 "Zero Y"
+    #define IT_ZERO_Z                 "Zero Z"
+    #define IT_HOME_X                 "Home X"
+    #define IT_HOME_Y                 "Home Y"
+    #define IT_HOME_Z                 "Home Z"
+    #define IT_CUT                    "Cut"
 
 #endif

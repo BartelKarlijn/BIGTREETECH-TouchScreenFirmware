@@ -247,5 +247,12 @@
     #define RU_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define RU_EXTRUDE_100            "Ext. 100mm"
     #define RU_CONNECTION_SETTINGS    "Connection"
+    #define RU_ZERO_X                 "Zero X"
+    #define RU_ZERO_Y                 "Zero Y"
+    #define RU_ZERO_Z                 "Zero Z"
+    #define RU_HOME_X                 "Home X"
+    #define RU_HOME_Y                 "Home Y"
+    #define RU_HOME_Z                 "Home Z"
+    #define RU_CUT                    "Cut"
 
 #endif

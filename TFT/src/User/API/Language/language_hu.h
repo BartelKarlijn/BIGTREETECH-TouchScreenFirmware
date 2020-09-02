@@ -247,5 +247,12 @@
     #define HU_PID_START_INFO_3       "NE ÉRINTSD meg a kijelzőt míg nincs kész (zöld LED jelzi)!"
     #define HU_EXTRUDE_100            "Ext. 100mm"
     #define HU_CONNECTION_SETTINGS    "Kapcsolat"
+    #define HU_ZERO_X                 "Zero X"
+    #define HU_ZERO_Y                 "Zero Y"
+    #define HU_ZERO_Z                 "Zero Z"
+    #define HU_HOME_X                 "Home X"
+    #define HU_HOME_Y                 "Home Y"
+    #define HU_HOME_Z                 "Home Z"
+    #define HU_CUT                    "Cut"
 
 #endif

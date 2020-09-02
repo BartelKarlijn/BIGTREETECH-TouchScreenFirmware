@@ -247,5 +247,12 @@
     #define GR_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define GR_EXTRUDE_100            "Ext. 100mm"
     #define GR_CONNECTION_SETTINGS    "Connection"
+    #define GR_ZERO_X                 "Zero X"
+    #define GR_ZERO_Y                 "Zero Y"
+    #define GR_ZERO_Z                 "Zero Z"
+    #define GR_HOME_X                 "Home X"
+    #define GR_HOME_Y                 "Home Y"
+    #define GR_HOME_Z                 "Home Z"
+    #define GR_CUT                    "Cut"
 
 #endif

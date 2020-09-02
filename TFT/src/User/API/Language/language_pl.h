@@ -247,5 +247,12 @@
     #define PL_PID_START_INFO_3       "DO NOT touch the screen until completed (green LED on)!"
     #define PL_EXTRUDE_100            "Ext. 100mm"
     #define PL_CONNECTION_SETTINGS    "Connection"
+    #define PL_ZERO_X                 "Zero X"
+    #define PL_ZERO_Y                 "Zero Y"
+    #define PL_ZERO_Z                 "Zero Z"
+    #define PL_HOME_X                 "Home X"
+    #define PL_HOME_Y                 "Home Y"
+    #define PL_HOME_Z                 "Home Z"
+    #define PL_CUT                    "Cut"
 
 #endif
