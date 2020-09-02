@@ -8,14 +8,26 @@ void unifiedMenu(void)
     // title
     LABEL_MAINMENU,
     // icon                         label
-    {{ICON_HEAT_FAN,                LABEL_UNIFIEDHEAT},
-     {ICON_HOME_MOVE,               LABEL_UNIFIEDMOVE},
-     {ICON_EXTRUDE,                 LABEL_EXTRUDE},
-     {ICON_STOP,                    LABEL_EMERGENCYSTOP},
-     {ICON_SETTINGS,                LABEL_SETTINGS},
-     {ICON_GCODE,                   LABEL_TERMINAL},
-     {ICON_CUSTOM,                  LABEL_CUSTOM},
-     {ICON_BACK,                    LABEL_BACK},}
+    #ifdef CNC_MENU //if CNC menu is selected
+      {{ICON_HOME,                    LABEL_HOME},
+       {ICON_HOME_MOVE,               LABEL_UNIFIEDMOVE},
+       {ICON_FAN,                     LABEL_FAN},
+       {ICON_STOP,                    LABEL_EMERGENCYSTOP},
+       {ICON_SETTINGS,                LABEL_SETTINGS},
+       {ICON_GCODE,                   LABEL_TERMINAL},
+       {ICON_CUSTOM,                  LABEL_CUSTOM},
+       {ICON_BACK,                    LABEL_BACK},}
+    #else          // unified menu
+      {{ICON_HEAT_FAN,                LABEL_UNIFIEDHEAT},
+       {ICON_HOME_MOVE,               LABEL_UNIFIEDMOVE},
+       {ICON_EXTRUDE,                 LABEL_EXTRUDE},
+       {ICON_STOP,                    LABEL_EMERGENCYSTOP},
+       {ICON_SETTINGS,                LABEL_SETTINGS},
+       {ICON_GCODE,                   LABEL_TERMINAL},
+       {ICON_CUSTOM,                  LABEL_CUSTOM},
+       {ICON_BACK,                    LABEL_BACK},}
+     #endif
+
   };
 
   KEY_VALUES key_num = KEY_IDLE;
@@ -28,18 +40,34 @@ void unifiedMenu(void)
     key_num = menuKeyGetValue();
     switch(key_num)
     {
-      case KEY_ICON_0:
-        infoMenu.menu[++infoMenu.cur] = menuUnifiedHeat;
-        break;
+      #ifdef CNC_MENU //if CNC menu is selected
+        case KEY_ICON_0:
+          infoMenu.menu[++infoMenu.cur] = menuHome;
+          break;
 
-      case KEY_ICON_1:
-        infoMenu.menu[++infoMenu.cur] = menuUnifiedMove;
-        break;
+        case KEY_ICON_1:
+          infoMenu.menu[++infoMenu.cur] = menuUnifiedMove;
+          break;
 
-      case KEY_ICON_2:
-        infoMenu.menu[++infoMenu.cur] = menuExtrude;
-        break;
+        case KEY_ICON_2:
+          infoMenu.menu[++infoMenu.cur] = menuFan;
+          break;
 
+      #else     // unified Menu
+        case KEY_ICON_0:
+          infoMenu.menu[++infoMenu.cur] = menuUnifiedHeat;
+          break;
+
+        case KEY_ICON_1:
+          infoMenu.menu[++infoMenu.cur] = menuUnifiedMove;
+          break;
+
+        case KEY_ICON_2:
+          infoMenu.menu[++infoMenu.cur] = menuExtrude;
+          break;
+
+      #endif 
+      
       case KEY_ICON_3:
         storeCmd("M112\n");            // Emergency Stop : Used for emergency stopping, a reset is required to return to operational mode.
                                        // it may need to wait for a space to open up in the command queue.
