@@ -216,7 +216,7 @@
  * and send "M420 S1" to enable leveling state after startup
  */
 // Ignace 2020 09 02 lowrider no bed leveling
-//#define AUTO_SAVE_LOAD_LEVELING_VALUE true //to enabled: true | to disabled: false
+#define AUTO_SAVE_LOAD_LEVELING_VALUE false //to enabled: true | to disabled: false
 
 /**
  * Enable Unified Bed Leveling options.
