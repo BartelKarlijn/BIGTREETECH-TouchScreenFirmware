@@ -253,6 +253,7 @@
     #define AM_HOME_X                 "Home X"
     #define AM_HOME_Y                 "Home Y"
     #define AM_HOME_Z                 "Home Z"
+    #define AM_HOME_XYZ               "Home XYZ"
     #define AM_CUT                    "Cut"
 
 #endif

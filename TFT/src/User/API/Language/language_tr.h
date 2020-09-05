@@ -253,6 +253,7 @@
     #define TR_HOME_X                 "Home X"
     #define TR_HOME_Y                 "Home Y"
     #define TR_HOME_Z                 "Home Z"
+    #define TR_HOME_XYZ               "Home XYZ"
     #define TR_CUT                    "Cut"
 
 #endif

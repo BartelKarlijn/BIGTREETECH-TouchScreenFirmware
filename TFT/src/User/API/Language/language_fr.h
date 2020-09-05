@@ -253,6 +253,7 @@
     #define FR_HOME_X                 "Home X"
     #define FR_HOME_Y                 "Home Y"
     #define FR_HOME_Z                 "Home Z"
+    #define FR_HOME_XYZ               "Home XYZ"
     #define FR_CUT                    "Cut"
 
 #endif

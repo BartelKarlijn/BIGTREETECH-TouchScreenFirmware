@@ -253,6 +253,7 @@
     #define IT_HOME_X                 "Home X"
     #define IT_HOME_Y                 "Home Y"
     #define IT_HOME_Z                 "Home Z"
+    #define IT_HOME_XYZ               "Home XYZ"
     #define IT_CUT                    "Cut"
 
 #endif

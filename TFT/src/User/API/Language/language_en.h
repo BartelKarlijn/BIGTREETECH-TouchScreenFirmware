@@ -253,5 +253,6 @@
     #define EN_HOME_X                 "Home X"
     #define EN_HOME_Y                 "Home Y"
     #define EN_HOME_Z                 "Home Z"
+    #define EN_HOME_XYZ               "Home XYZ"
     #define EN_CUT                    "Cut"
 #endif

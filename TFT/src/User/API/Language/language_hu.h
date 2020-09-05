@@ -253,6 +253,7 @@
     #define HU_HOME_X                 "Home X"
     #define HU_HOME_Y                 "Home Y"
     #define HU_HOME_Z                 "Home Z"
+    #define HU_HOME_XYZ               "Home XYZ"
     #define HU_CUT                    "Cut"
 
 #endif

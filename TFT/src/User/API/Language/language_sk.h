@@ -253,6 +253,7 @@
     #define SK_HOME_X                 "Home X"
     #define SK_HOME_Y                 "Home Y"
     #define SK_HOME_Z                 "Home Z"
+    #define SK_HOME_XYZ               "Home XYZ"
     #define SK_CUT                    "Cut"
 
 #endif

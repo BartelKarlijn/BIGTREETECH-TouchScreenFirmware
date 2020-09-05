@@ -253,6 +253,7 @@
     #define PT_HOME_X                 "Home X"
     #define PT_HOME_Y                 "Home Y"
     #define PT_HOME_Z                 "Home Z"
+    #define PT_HOME_XYZ               "Home XYZ"
     #define PT_CUT                    "Cut"
 
 #endif

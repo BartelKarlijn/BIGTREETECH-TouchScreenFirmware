@@ -7,7 +7,7 @@ const MENUITEMS homeItems = {
 LABEL_HOME,
 // icon                       label
 #ifdef CNC_MENU //if CNC menu is selected
- {{ICON_HOME,                 LABEL_HOME},
+ {{ICON_XYZ_HOME,             LABEL_HOME_XYZ},
   {ICON_X_HOME,               LABEL_X},
   {ICON_Y_HOME,               LABEL_Y},
   {ICON_Z_HOME,               LABEL_Z},
@@ -42,9 +42,9 @@ void menuHome(void)
         case KEY_ICON_1: storeCmd("G28 X\n"); break;
         case KEY_ICON_2: storeCmd("G28 Y\n"); break;
         case KEY_ICON_3: storeCmd("G28 Z\n"); break;
-        case KEY_ICON_4: storeCmd("G92 X0\n"); break;
-        case KEY_ICON_5: storeCmd("G92 Y0\n"); break;
-        case KEY_ICON_6: storeCmd("G92 Z0\n"); break;
+        case KEY_ICON_4: storeCmd("G92 X0\nM300 S440 P200\nM300 S660 P250\nM300 S880 P300\n"); break;
+        case KEY_ICON_5: storeCmd("G92 Y0\nM300 S440 P200\nM300 S660 P250\nM300 S880 P300\n"); break;
+        case KEY_ICON_6: storeCmd("G92 Z0\nM300 S440 P200\nM300 S660 P250\nM300 S880 P300\n"); break;
       #else
         case KEY_ICON_0: storeCmd("G28\n");   break;
         case KEY_ICON_1: storeCmd("G28 X\n"); break;

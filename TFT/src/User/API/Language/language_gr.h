@@ -253,6 +253,7 @@
     #define GR_HOME_X                 "Home X"
     #define GR_HOME_Y                 "Home Y"
     #define GR_HOME_Z                 "Home Z"
+    #define GR_HOME_XYZ               "Home XYZ"
     #define GR_CUT                    "Cut"
 
 #endif

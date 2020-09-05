@@ -253,5 +253,6 @@
     #define CZ_HOME_X                 "Home X"
     #define CZ_HOME_Y                 "Home Y"
     #define CZ_HOME_Z                 "Home Z"
+    #define CZ_HOME_XYZ               "Home XYZ"
     #define CZ_CUT                    "Cut"
 #endif

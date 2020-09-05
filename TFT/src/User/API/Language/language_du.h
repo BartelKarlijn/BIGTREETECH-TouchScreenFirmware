@@ -253,5 +253,6 @@
     #define DU_HOME_X                 "Home X"
     #define DU_HOME_Y                 "Home Y"
     #define DU_HOME_Z                 "Home Z"
+    #define DU_HOME_XYZ               "Home XYZ"
     #define DU_CUT                    "Cut"
 #endif

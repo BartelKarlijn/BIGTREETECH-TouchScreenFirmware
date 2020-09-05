@@ -253,6 +253,7 @@
     #define PL_HOME_X                 "Home X"
     #define PL_HOME_Y                 "Home Y"
     #define PL_HOME_Z                 "Home Z"
+    #define PL_HOME_XYZ               "Home XYZ"
     #define PL_CUT                    "Cut"
 
 #endif

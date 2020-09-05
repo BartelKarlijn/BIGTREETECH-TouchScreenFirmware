@@ -253,6 +253,7 @@
     #define JP_HOME_X                 "Home X"
     #define JP_HOME_Y                 "Home Y"
     #define JP_HOME_Z                 "Home Z"
+    #define JP_HOME_XYZ               "Home XYZ"
     #define JP_CUT                    "Cut"
 
 #endif

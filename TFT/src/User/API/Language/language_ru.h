@@ -253,6 +253,7 @@
     #define RU_HOME_X                 "Home X"
     #define RU_HOME_Y                 "Home Y"
     #define RU_HOME_Z                 "Home Z"
+    #define RU_HOME_XYZ               "Home XYZ"
     #define RU_CUT                    "Cut"
 
 #endif

@@ -253,5 +253,6 @@
     #define CA_HOME_X                 "Home X"
     #define CA_HOME_Y                 "Home Y"
     #define CA_HOME_Z                 "Home Z"
+    #define CA_HOME_XYZ               "Home XYZ"
     #define CA_CUT                    "Cut"
 #endif

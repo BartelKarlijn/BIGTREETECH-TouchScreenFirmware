@@ -253,6 +253,7 @@
     #define SL_HOME_X                 "Home X"
     #define SL_HOME_Y                 "Home Y"
     #define SL_HOME_Z                 "Home Z"
+    #define SL_HOME_XYZ               "Home XYZ"
     #define SL_CUT                    "Cut"
 
 #endif

@@ -253,5 +253,6 @@
     #define DE_HOME_X                 "Home X"
     #define DE_HOME_Y                 "Home Y"
     #define DE_HOME_Z                 "Home Z"
+    #define DE_HOME_XYZ               "Home XYZ"
     #define DE_CUT                    "Cut"
 #endif
