@@ -268,9 +268,10 @@ void toggleTool(void)
       if (gantryCmdWait != true)
       {
         gantryCmdWait = true;
+        // Ignace 2020 09 05 
         storeCmd("M114\n");
         storeCmd("M220\n");
-        storeCmd("M221\n");
+        // storeCmd("M221\n");    // M221= Set flow percentage
       }
     }
     else
