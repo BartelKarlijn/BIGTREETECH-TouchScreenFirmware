@@ -56,7 +56,9 @@ void menuSpeed(void)
 
   percentageItems.items[KEY_ICON_5] = itemPercentUnit[item_percent_unit_i];
 
-  storeCmd("M220\nM221\n");
+  // Ignace 2020 09 07 removed M221
+  //storeCmd("M220\nM221\n");
+  storeCmd("M220\n");
   KEY_VALUES key_num;
 
   u16 now = speedGetPercent(item_percentage_i);

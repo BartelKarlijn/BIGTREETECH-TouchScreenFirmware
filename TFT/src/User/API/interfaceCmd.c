@@ -386,7 +386,9 @@ void sendQueueCmd(void)
         case 29: //M29
           if (!fromTFT)
           {
-            storeCmd("M105\nM114\nM220\nM221\n");
+            // Ignace 2020 09 07 Removed M221= Set Flow speed
+            // storeCmd("M105\nM114\nM220\nM221\n");
+            storeCmd("M105\nM114\nM220\n");
             ispolling = true;
           }
             break;
@@ -672,9 +674,10 @@ void sendQueueCmd(void)
           if(cmd_seen('S'))
             speedSetPercent(0,cmd_value());
           break;
+        // Ignace commented M221
         case 221: //M221
-          if(cmd_seen('S'))
-            speedSetPercent(1,cmd_value());
+//          if(cmd_seen('S'))
+//            speedSetPercent(1,cmd_value());
           break;
 
         #ifdef BUZZER_PIN

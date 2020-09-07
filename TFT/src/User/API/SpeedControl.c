@@ -46,7 +46,9 @@ void loopSpeed(void)
       if(send_waiting[i] != true)
       {
         send_waiting[i] = true;
-        const char *speedCmd[SPEED_NUM] = {"M220","M221"};
+        // Ignace 2020 09 07 Removed M221= Set flow percentage
+        // const char *speedCmd[SPEED_NUM] = {"M220","M221"};
+        const char *speedCmd[SPEED_NUM] = {"M220","M220"};
         storeCmd("%s S%d\n",speedCmd[i], percent[i]);
       }
     }
